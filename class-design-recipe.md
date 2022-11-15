@@ -24,6 +24,10 @@ class AccountStatement {
    // [{date: (date), deposit: (deposit), withdrawal: (withdrawal)}]
   }
 
+  getTransaction(transaction) {
+    // transaction is an object which gets added to the array above.
+  }
+
   getBalance() {
     // calculates total balance and returns number as decimal.
   }
@@ -55,10 +59,6 @@ class AccountTransaction {
 
   displayTransaction() {
     // returns initialized object
-  }
-
-  addToStatement() {
-    // adds object to Statement class array.
   }
 }
 
@@ -95,8 +95,46 @@ expect(result).toEqual(testResult);
 ### 4. User enters invalid value
 
 const transaction = new AccountTransaction();
-...() => {
   expect(() => {
-    transaction.getDeposit(100.00));
-  }).toThrow(‘Number must be an integer, with no decimal point');
-})
+    transaction.getDeposit();
+  }).toThrow('You must enter a number');
+
+## Statement unit tests
+
+### 5. Transaction is added
+
+const statement = new AccountStatement();
+statement.getTransaction({date: 10/01/2023, deposit: 1000, withdrawal: 0});
+const result = statement.displayTransactionsArray();
+expect(result).toEqual([{date: 10/01/2023, deposit: 1000, withdrawal: 0}]);
+
+### 6. Balance is calculated
+
+const statement = new AccountStatement();
+statement.getTransaction({date: 10/01/2023, deposit: 1000, withdrawal: 0});
+statement.getTransaction({date: 13/01/2023, deposit: 2000, withdrawal: 0});
+expect(statement.getBalance).toEqual(3000);
+
+### 7. Empty statement is printed
+
+const statement = new AccountStatement();
+statement.getStatement();
+expect.stringContaining("date || credit || debit || balance");
+
+### 8. Statement with balance is printed
+
+const statement = new AccountStatement();
+statement.getTransaction({date: 10/01/2023, deposit: 1000, withdrawal: 0});
+statement.getTransaction({date: 13/01/2023, deposit: 2000, withdrawal: 0});
+statement.getTransaction({date: 14/01/2023, deposit: 0, withdrawal: 500});
+statement.getStatement()
+expect.stringContaining("14/01/2023 || || 500.00 || 2500.00");
+
+## Integration tests
+
+### ???. Two transactions are added to Statement array
+
+const statement = new Statement();
+const transaction1 = new AccountTransaction();
+
+

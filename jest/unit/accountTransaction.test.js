@@ -1,4 +1,4 @@
-const AccountTransaction = require('../lib/accountTransaction.js');
+const AccountTransaction = require('../../lib/accountTransaction.js');
 
 describe('Depositing into account', () => {
   it('returns "1000"', () => {

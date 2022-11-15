@@ -1,14 +1,14 @@
 const AccountStatement = require('../../lib/statement.js');
 
 describe('Statement', () => {
-  it('adds transaction to array"', () => {
+  it('adds transaction to array', () => {
     const statement = new AccountStatement();
     statement.getTransaction({date: "10/01/2023", deposit: 1000, withdrawal: 0});
     const result = statement.displayTransactionsArray();
     expect(result).toEqual([{"date": "10/01/2023", "deposit": 1000,"withdrawal": 0}]);
   });
 
-  it('calculates balance"', () => {
+  it('calculates balance', () => {
     const statement = new AccountStatement();
     statement.getTransaction({date: "10/01/2023", deposit: 1000, withdrawal: 0});
     statement.getTransaction({date: "13/01/2023", deposit: 2000, withdrawal: 0});
@@ -23,8 +23,27 @@ describe('Statement', () => {
     expect(statement.getBalance()).toEqual(2500);  
   });
 
-  it('prints empty statement with table headings', () => {
+  it('adds balance to each array object', () => {
     const statement = new AccountStatement();
-    expect(statement.getStatement()).toEqual(expect.stringContaining("date || credit || debit || balance"));
+    statement.getTransaction({date: "10/01/2023", deposit: 1000, withdrawal: 0});
+    statement.getTransaction({date: "13/01/2023", deposit: 2000, withdrawal: 0});
+    statement.getTransaction({date: "14/01/2023", deposit: 0, withdrawal: 500});
+    statement.getBalance()
+    const array = statement.displayTransactionsArray()
+    expect(array[2]).toEqual({date: "14/01/2023", deposit: 0, withdrawal: 500, balance: 2500});  
+  });
+
+  it('prints statement table headings', () => {
+    const statement = new AccountStatement();
+    expect(statement.getStatementHeadings()).toEqual(expect.stringContaining("date || credit || debit || balance"));
+  });
+
+  it('prints statement data', () => {
+    const statement = new AccountStatement();  
+    statement.getTransaction({date: "10/01/2023", deposit: 1000, withdrawal: 0});
+    statement.getTransaction({date: "13/01/2023", deposit: 2000, withdrawal: 0});
+    statement.getTransaction({date: "14/01/2023", deposit: 0, withdrawal: 500});
+    statement.getBalance()
+    expect(statement.getStatementData()).toEqual(expect.stringContaining("14/01/2023 || || 500.00 || 2500.00"));
   });
 });

@@ -32,4 +32,11 @@ describe('Transaction date added to object', () => {
   });
 });
 
-
+  describe('User enters invalid value', () => {
+    it('should throw an error', () => {
+    const transaction = new AccountTransaction();
+    expect(() => {
+      transaction.getDeposit();
+    }).toThrow('You must enter a number');
+  });
+});

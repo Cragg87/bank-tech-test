@@ -83,7 +83,20 @@ expect(result).toEqual(1000);
 ### 3. Object includes date of transaction.
 
 const transaction = new AccountTransaction();
-transaction.getDeposit(2000)
+const currentTime = new Date();
+const day = currentTime.getDate();
+const month = currentTime.getMonth() + 1;
+const year = currentTime.getUTCFullYear();
+const testResult = `${day}/${month}/${year}`
+transaction.getDate()
 const result = transaction.displayTransaction().date;
-expect(result).toMatch(^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$));
+expect(result).toEqual(testResult);
 
+### 4. User enters invalid value
+
+const transaction = new AccountTransaction();
+...() => {
+  expect(() => {
+    transaction.getDeposit(100.00));
+  }).toThrow(‘Number must be an integer, with no decimal point');
+})

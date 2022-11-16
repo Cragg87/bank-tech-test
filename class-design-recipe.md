@@ -135,6 +135,7 @@ const statement = new AccountStatement();
 statement.getTransaction({date: 10/01/2023, deposit: 1000, withdrawal: 0});
 statement.getTransaction({date: 13/01/2023, deposit: 2000, withdrawal: 0});
 statement.getTransaction({date: 14/01/2023, deposit: 0, withdrawal: 500});
+statement.getBalance();
 statement.getStatementData()
 expect.stringContaining("14/01/2023 || || 500.00 || 2500.00");
 
@@ -152,6 +153,27 @@ const result = statement.displayTransactionsArray();
 expect(result[0]).toEqual(expect.objectContaining({
         deposit: 1000, 
         withdrawal: 0
+    }));
+
+### 10. Statement data with balance is returned
+
+const statement = new AccountStatement();
+const transaction1 = new AccountTransaction();
+const transaction2 = new AccountTransaction();
+transaction1.getDate();
+transaction1.getDeposit(1000);
+transaction1.getWithdrawal(0);
+transaction2.getDate();
+transaction2.getDeposit(0);
+transaction2.getWithdrawal(500);
+statement.getTransaction(transaction1.displayTransaction());
+statement.getTransaction(transaction2.displayTransaction());
+statement.getBalance();
+const result = statement.displayTransactionsArray();
+expect(result[1]).toEqual(expect.objectContaining({
+      deposit: 0, 
+      withdrawal: 500,
+      balance: 500
     }));
 
 

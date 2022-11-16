@@ -66,7 +66,7 @@ class AccountTransaction {
   }
 
   displayTransaction() {
-    // returns initialized object
+    // returns object
   }
 }
 
@@ -140,9 +140,19 @@ expect.stringContaining("14/01/2023 || || 500.00 || 2500.00");
 
 ## Integration tests
 
-### ???. Two transactions are added to Statement array
+### 9. Transaction is added to Statement array from AccountTransaction class
 
 const statement = new Statement();
 const transaction1 = new AccountTransaction();
+transaction1.getDate();
+transaction1.getDeposit(1000);
+transaction1.getWithdrawal(0);
+statement.getTransaction(transaction1.displayTransaction());
+const result = statement.displayTransactionsArray();
+expect(result[0]).toEqual(expect.objectContaining({
+        deposit: 1000, 
+        withdrawal: 0
+    }));
+
 
 

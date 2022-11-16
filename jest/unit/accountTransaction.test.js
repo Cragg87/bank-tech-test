@@ -7,6 +7,13 @@ describe('Depositing into account', () => {
     const result = transaction.displayTransaction().deposit;
     expect(result).toEqual(1000);
   });
+
+  it('returns ""', () => {
+    const transaction = new AccountTransaction();
+    transaction.getDeposit(0)
+    const result = transaction.displayTransaction().deposit;
+    expect(result).toEqual("");
+  });
 });
 
 describe('Withdrawing from account', () => {
@@ -15,6 +22,13 @@ describe('Withdrawing from account', () => {
     transaction.getWithdrawal(1000)
     const result = transaction.displayTransaction().withdrawal;
     expect(result).toEqual(1000);
+  });
+
+  it('returns ""', () => {
+    const transaction = new AccountTransaction();
+    transaction.getWithdrawal(0)
+    const result = transaction.displayTransaction().withdrawal;
+    expect(result).toEqual("");
   });
 });
 

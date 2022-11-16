@@ -12,7 +12,7 @@ describe('Statement', () => {
     const result = statement.displayTransactionsArray();
     expect(result[0]).toEqual(expect.objectContaining({
       deposit: 1000, 
-      withdrawal: 0
+      withdrawal: ''
     }));
   });
 
@@ -30,7 +30,7 @@ describe('Statement', () => {
     statement.getTransaction(transaction2.displayTransaction());
     const result = statement.displayTransactionsArray();
     expect(result[1]).toEqual(expect.objectContaining({
-      deposit: 0, 
+      deposit: '', 
       withdrawal: 500
     }));
   });
@@ -50,7 +50,7 @@ describe('Statement', () => {
     statement.getBalance();
     const result = statement.displayTransactionsArray();
     expect(result[1]).toEqual(expect.objectContaining({
-      deposit: 0, 
+      deposit: '', 
       withdrawal: 500,
       balance: 500
     }));

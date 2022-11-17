@@ -1,6 +1,12 @@
 # Bank Class Design Recipe
 
-## Requirements
+## Specification
+
+### Requirements
+- You should be able to interact with your code via a REPL like IRB or Node. (You don't need to implement a command line interface that takes input from STDIN.)
+- Deposits, withdrawal.
+- Account statement (date, amount, balance) printing.
+- Data can be kept in memory (it doesn't need to be stored to a database or anything).
 
 1. User can view a bank statement as a table showing;
    - Date:
@@ -12,7 +18,19 @@
 
 3. User can withdraw money from their account.
 
-4. Deposits and withdrawals are timestamped when they occur
+4. Date of transaction is shown on statement.
+
+### Acceptance criteria
+Given a client makes a deposit of 1000 on 10-01-2023
+And a deposit of 2000 on 13-01-2023
+And a withdrawal of 500 on 14-01-2023
+When she prints her bank statement
+Then she would see
+
+date || credit || debit || balance
+14/01/2023 || || 500.00 || 2500.00
+13/01/2023 || 2000.00 || || 3000.00
+10/01/2023 || 1000.00 || || 1000.00
 
 ## Classes
 
@@ -36,12 +54,8 @@ class AccountStatement {
     // calculates total balance, apends balance to each transaction and returns number.
   }
 
-  getStatementHeadings() {
-    // returns table headings for statement as a string.
-  }
-
-  get StatementData() {
-    returns transaction objects as rows of strings.
+  printStatement() {
+    // returns string in table format with headings and data.
   }
 }
 
@@ -123,25 +137,19 @@ statement.getTransaction({date: 10/01/2023, deposit: 1000, withdrawal: 0});
 statement.getTransaction({date: 13/01/2023, deposit: 2000, withdrawal: 0});
 expect(statement.getBalance).toEqual(3000);
 
-### 7. Statement table headings are printed
+### 7. Statement table with headings and data is printed
 
-const statement = new AccountStatement();
-statement.getStatementHeadings();
-expect.stringContaining("date || credit || debit || balance");
-
-### 8. Statement data with balance is printed
-
-const statement = new AccountStatement();
-statement.getTransaction({date: 10/01/2023, deposit: 1000, withdrawal: 0});
-statement.getTransaction({date: 13/01/2023, deposit: 2000, withdrawal: 0});
-statement.getTransaction({date: 14/01/2023, deposit: 0, withdrawal: 500});
+const statement = new AccountStatement();  
+statement.getTransaction({date: "10/01/2023", deposit: 1000, withdrawal: ""});
+statement.getTransaction({date: "13/01/2023", deposit: 2000, withdrawal: ""});
+statement.getTransaction({date: "14/01/2023", deposit: "", withdrawal: 500});
 statement.getBalance();
-statement.getStatementData()
-expect.stringContaining("14/01/2023 || || 500.00 || 2500.00");
+expect(statement.printStatement()).toEqual(expect.stringContaining("date || credit || debit || balance"));
+expect(statement.printStatement()).toEqual(expect.stringContaining("14/01/2023 ||  || 500 || 2500"));
 
 ## Integration tests
 
-### 9. Transaction is added to Statement array from AccountTransaction class
+### 8. Transaction is added to Statement array from AccountTransaction class
 
 const statement = new Statement();
 const transaction1 = new AccountTransaction();
@@ -155,7 +163,7 @@ expect(result[0]).toEqual(expect.objectContaining({
         withdrawal: 0
     }));
 
-### 10. Statement data with balance is returned
+### 9. Statement data with balance is returned
 
 const statement = new AccountStatement();
 const transaction1 = new AccountTransaction();
